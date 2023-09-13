@@ -27,7 +27,6 @@ module.exports = class Product {
     this.description = description;
     this.price = price;
   }
-
   save() {
     getProductsFromFile((products) => {
       if (this.id) {
