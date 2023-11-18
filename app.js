@@ -8,12 +8,12 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const multer = require("multer");
+require("dotenv").config();
 
 const errorController = require("./controllers/error");
 const User = require("./models/user");
 
-const MONGODB_URI =
-  "mongodb+srv://saeedirfan239960:W9obAzfND6GOdMJb@cluster0.o6ufudt.mongodb.net/shop";
+const MONGODB_URI = process.env.MONGODB_CONECTION_URI;
 
 const app = express();
 const store = new MongoDBStore({
