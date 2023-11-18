@@ -4,14 +4,14 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 const { validationResult } = require("express-validator");
+require("dotenv").config();
 
 const User = require("../models/user");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        "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",
+      api_key: process.env.SENDGRID_API,
     },
   })
 );
@@ -134,7 +134,11 @@ exports.postLogin = (req, res, next) => {
           res.redirect("/login");
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(500);
+    });
 };
 
 exports.postSignup = (req, res, next) => {
@@ -186,7 +190,9 @@ exports.postSignup = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(500);
     });
 };
 
@@ -265,7 +271,9 @@ exports.getNewPassword = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(500);
     });
 };
 
